@@ -9,7 +9,7 @@ type myComponentProps = {
 
 
 export default function SignUpUser({setComp} : myComponentProps){
-    const [email , setEmail] = useState<string>();
+    const [email , setEmail] = useState<string>("");
     const [name , setName] = useState<string>();
     const [password , setPassword] = useState<string>();
     const navigate = useNavigate()
@@ -53,6 +53,8 @@ export default function SignUpUser({setComp} : myComponentProps){
                     });
                     const token = response.data.token
                     localStorage.setItem('token' , token);
+                    localStorage.setItem('name' , response.data.name);
+                    localStorage.setItem('email' , email)
                     navigate('/user/projects')
                     
                 }).catch((e)=>{

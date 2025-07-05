@@ -5,22 +5,24 @@ import {useUserSelectedStore } from "../../context/Store"
 export const UserSideBar = ()=>{
     const userSelected = useUserSelectedStore((state:any)=>(state.userSelected))
     const setUserSelected = useUserSelectedStore((state:any)=>(state.setUserSelected))
+    const name = localStorage.getItem('name')
+    const email = localStorage.getItem('email')
   
   
     return (
         <div className=" bg-white bg-gradient-to-br from-blue-50 to-white  pt-5 h-full border border-slate-300 w-60 flex flex-col items-center ">
             <div className="flex  flex-col items-center px-10">
             <div className="rounded-full flex justify-center my-2 items-center bg-gray-400  w-16 h-16 border ">
-                H
+                {name? name[0].toUpperCase() : "" }
             </div>
             <div className=" bg-blue-700 text-[11px] px-3 font-semibold text-white p-0.5 rounded-sm ">
-                Admin
+                User
             </div>
             <div className="mt-2 font-semibold  text-base">
-                Mike
+                {name}
             </div>
             <div className="text-slate-700 ">
-                mike@google.com
+                {email}
             </div>
             </div>
 

@@ -5,6 +5,7 @@ import TaskDashboard from "./pages/admin/TaskDashboard"
 import UserTaskDashboard from "./pages/user/UserTaskDashboard"
 import { Toaster } from "react-hot-toast"
 import Task from "./components/TaskComponents/Task"
+import UserTask from "./components/User Components/UserTask"
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
         <Route path="/admin/projects" element={<ProjectDashboard/>}/>
         <Route path="/admin/projects/task" element={<TaskDashboard/>}/>
         <Route path="/user/projects" element={<UserTaskDashboard/>}/>
+        <Route path="/user/projects/:id" element={<UserTask/>}/>
         <Route path="/admin/projects/task/:id" element={<Task/>}/>
       </Routes>
       <Toaster/>

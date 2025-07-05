@@ -9,7 +9,7 @@ type myComponentProps = {
 
 export default function SignInUser( {setComp} :myComponentProps){
     const navigate = useNavigate();
-    const [email , setEmail] = useState<string>();
+    const [email , setEmail] = useState<string>("");
     const [password , setPassword] = useState<string>();
     return <>
         <div className="border p-4 rounded-2xl  flex flex-col w-full px-20">
@@ -48,6 +48,8 @@ export default function SignInUser( {setComp} :myComponentProps){
                 });
                 const token = response.data.token
                 localStorage.setItem('token' , token);
+                localStorage.setItem('name' , response.data.name)
+                localStorage.setItem('email' , email)
                 navigate('/user/projects')
                     
                 }).catch((e)=>{

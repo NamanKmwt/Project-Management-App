@@ -6,48 +6,25 @@ import { CardSkeleton } from "../Skeleton";
 import { useAllMemberStore } from "../TaskComponents/TaskStore";
 
 export default function(){
-    const addAllMembers = useAllMemberStore((state:any)=>state.addAllMembers)
-    const [members , setMembers] = useState<any>();
+    const AllmembersArray = useAllMemberStore((state:any)=> state.AllmembersArray)
     const [loading , setLoading] = useState(true);
 
-    useEffect(()=>{
-        const token = localStorage.getItem('token')
-        axios.get("http://localhost:3000/api/v1/user/all" ,{
-            headers :{
-                Authorization : token
-            }
-        }).then((response)=>{
-            setMembers(response.data.users)
-            setLoading(false)
-        }).catch((e)=>{
-            toast.error(e.response.data.msg, {
-            style: {
-                borderRadius: '8px',
-                background: '#ff4d4f',
-                color: '#fff',
-                padding: '16px',
-            },
-            iconTheme: {
-                primary: '#fff',
-                secondary: '#ff4d4f',
-            },
-            });
-        })
-    } , [])
 
-    if(!loading){
-        addAllMembers(members)
-    }
+    useEffect(()=>{
+        if(AllmembersArray.length > 0){
+            setLoading(false)
+        }
+    })
 
     return (
         <div>
             <div className="w-full flex px-3 font-bold text-3xl">Members</div>
             {loading ?<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-2 grid-cols-1 auto-rows-[160px]">
-                {Array.from({ length: 6 }).map(() => {
-                    return  <CardSkeleton />
+                {Array.from({ length: 6 }).map((_ , id) => {
+                    return  <CardSkeleton key={id} />
                 })}
                 </div> : <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 auto-rows-[160px]">
-            {members?.map((item : any)=>{
+            {AllmembersArray?.map((item : any)=>{
                 return  <UserCard key={item._id} name={item.name} email={item.email}/>
             })}
             </div>

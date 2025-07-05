@@ -92,7 +92,7 @@ router.delete('/deleteProject' , authAdminMiddleware ,  async function(req : any
     }
 
     res.status(200).json({
-        msg : "Task deleted successfully"
+        msg : "Project deleted successfully"
     })
 })
 

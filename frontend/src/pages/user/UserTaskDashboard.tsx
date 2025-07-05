@@ -13,7 +13,6 @@ export default function(){
         switch(userSelected){
             case 'Dashboard' : return <UserDashboard/>
             case 'Log Out': return <UserDialogBox/>
-            case 'Task' : return <UserTask/>
         }
     }
     return (

@@ -33,8 +33,21 @@ export default function () {
                 <Button
                   className="inline-flex items-center cursor-pointer mx-3 gap-2 rounded-md bg-gray-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700"
                   onClick={()=>{close()
-                    setSelectedTask('Dashboard')
+                  
                     navigate('/')
+
+                    setTimeout(() => {
+                      setSelectedTask('Dashboard');
+                    }, 0);
+
+                    setTimeout(() => {
+                    localStorage.setItem('token', '');
+                    localStorage.setItem('name', '');
+                    localStorage.setItem('email', '');
+                    localStorage.setItem('projectId', '');
+                  }, 0);
+
+                  
                   }}
                 >
                   Yes

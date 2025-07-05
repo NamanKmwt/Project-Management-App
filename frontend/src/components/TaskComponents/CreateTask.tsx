@@ -12,13 +12,13 @@ export default function (){
     const [todoist , setTodoist] = useState('');
     const setSelectedTask = useSelectedStoreTask((state:any)=>(state.setSelectedTask))
     const [selectedMembers, setSelectedMembers] = useState<{id: string, name: string}[]>([]);
-    console.log(selectedMembers)
+   
     const [title , settitle] = useState<string>();
     const [description , setDescription] = useState<string>();
     const [due_date , setDue_date] = useState<string>();
     const [status , setStatus] = useState<string>();
     const [priority , setPriority] = useState<string>();
-    console.log(todo)
+    
 
     return (
         <div className="w-full ml-2 my-4 pr-20 grid  lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
