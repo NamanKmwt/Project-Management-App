@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { CardSkeleton } from "../Skeleton";
 import { useMemberStore } from './TaskStore';
+import { useNavigate } from 'react-router';
 
 export default function TaskBoard() {
   const projectId = localStorage.getItem('projectId')
@@ -15,6 +16,7 @@ export default function TaskBoard() {
   const [users , setUsers] = useState([{}]);
   const addMembers = useMemberStore((state:any)=>state.addMembers)
   const mySet = new Array
+  const navigate = useNavigate()
   
   
   useEffect(()=>{
@@ -71,7 +73,53 @@ export default function TaskBoard() {
         <div className="bg-white p-2 rounded-4xl">
       <div className="w-full px-3 my-2 font-bold text-3xl text-slate-800">{title}</div>
       <div className="w-full px-3 my-1 font-bold text-2xl text-slate-500">{description}</div>
-      <div className="w-full px-3 font-bold text-xl text-slate-800">My Tasks</div>
+      <div className='flex justify-between'>
+      <div className=" px-3 font-bold text-xl text-slate-800">My Tasks</div>
+      <div className="  px-3 font-bold text-xl text-slate-800"><img onClick={(e)=>{
+        e.preventDefault();
+        axios.delete('http://localhost:3000/api/v1/project/deleteProject' , {
+          headers :{
+        Authorization : localStorage.getItem('token')
+          },
+          data :{
+            projectID : projectId
+          }
+        }).then((response)=>{
+          toast.success('Project Deleted Successfully', {
+            style: {
+                border: "2px solid #3fa53b",
+                borderRadius: "8px",
+                background: "#4BB543",
+                color: "#fff",
+                padding: "16px",
+                boxShadow: "0 0 0 4px rgba(75,181,67,0.3)",
+                
+                transform: "scale(1)",
+                opacity: "1",
+                transition: "all 400ms ease",
+            },
+            iconTheme: {
+                primary: "#fff",
+                secondary: "#4BB543",
+            },
+            });
+            navigate('/admin/projects')
+        }).catch((e)=>{
+          toast.error(e.response.data.msg, {
+            style: {
+                borderRadius: '8px',
+                background: '#ff4d4f',
+                color: '#fff',
+                padding: '16px',
+            },
+            iconTheme: {
+                primary: '#fff',
+                secondary: '#ff4d4f',
+            },
+            });
+        })
+      }} className='w-7 h-7 cursor-pointer' src="https://cdn-icons-png.flaticon.com/128/6861/6861362.png" alt="" /></div>
+      </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 my-4">
         {/* TODO Column */}
         <div className="flex flex-col bg-gradient-to-b from-blue-50 to-white border border-blue-200 rounded-xl shadow-sm">

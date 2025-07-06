@@ -129,7 +129,7 @@ export default function (){
                     <button onClick={(e)=>{
                         e.preventDefault()
                         if(selectedMembers.length == 0){
-                            toast.error("Please select at least one member", {
+                           return  toast.error("Please select at least one member", {
                                         style: {
                                             borderRadius: '8px',
                                             background: '#ff4d4f',

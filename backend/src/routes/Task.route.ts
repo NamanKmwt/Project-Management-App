@@ -28,7 +28,7 @@ router.post('/create' ,authAdminMiddleware ,async function(req :any  , res : any
     const valid = inputSchema.safeParse(body);
     if(!valid.success){
        return res.status(403).json({
-            msg : `Incorrect inputs ${valid.error}` 
+            msg : `Incorrect inputs ` 
         })
     }
     const admin = await Admin.findOne({
@@ -51,7 +51,7 @@ router.post('/create' ,authAdminMiddleware ,async function(req :any  , res : any
         // )
     }catch(e){
         return res.status(403).json({
-            msg : `${e}`
+            msg : `An error occured`
         })
     }
         

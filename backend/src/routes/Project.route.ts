@@ -2,7 +2,7 @@ import  express, { NextFunction } from "express"
 import z from 'zod'
 import taskRouter from './Task.route'
 import { authAdminMiddleware } from "../middleware/authAdmin.middleware"
-import { Admin, Project } from "../db"
+import { Admin, Project, Task } from "../db"
 const router = express.Router()
 
 
@@ -84,10 +84,21 @@ router.delete('/deleteProject' , authAdminMiddleware ,  async function(req : any
     const projectID = req.body.projectID
 
     try{
+        const tasks = await Project.find({_id : projectID}, {
+            tasks : 1
+        })
+        tasks[0]['tasks'].map(async (item)=>{
+            await Task.deleteOne({_id : item})
+        })
+    }catch(e){
+        return res.status(402).json({msg : "some Error occured"});
+    }
+
+    try{
         await Project.deleteOne({_id : projectID})
     }catch(e){
         return res.status(403).json({
-            msg : "Error " + e
+            msg : "Error occur while deleting"
         })
     }
 
