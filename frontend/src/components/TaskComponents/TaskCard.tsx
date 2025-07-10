@@ -5,6 +5,14 @@ export default function TaskCard({details}: any) {
   const navigate = useNavigate()
   const isoString: string = details.due_date
   const date : string = isoString?.split("T")[0];
+
+  const priority = ()=>{
+    switch(details.priority) {
+      case 'HIGH' : return "text-xs font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200"
+      case 'MEDIUM' : return "text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200"
+      case 'LOW' : return "text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full border border-green-200"
+    }
+  }
   
   return (
     <div onClick={()=>{
@@ -17,7 +25,7 @@ export default function TaskCard({details}: any) {
         <span className="text-xs text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full border border-indigo-200">
           {date}
         </span>
-        <span className="text-xs font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">
+        <span  className= {priority()}>
           {details.priority} Priority
         </span>
       </div>

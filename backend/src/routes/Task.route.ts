@@ -106,16 +106,15 @@ router.put('/update' , authAdminMiddleware, async function(req :any  , res: any)
     let usersAssignedID : any ;
     try{
 
-        const usersAssigned : string[] = body.usersAssigned;
-        usersAssignedID =await User.find(
-            {email : {
-                $in : usersAssigned
-            }}, 
-            {
-                _id : 1
-            }
-        )
+        const usersAssigned : any[] = body.usersAssigned;
+
+        usersAssignedID = usersAssigned.map((info)=>{
+            return info.id
+        })
+
+        
     }catch(e){
+        console.log(e);
         return res.status(403).json({
             msg : `${e}`
         })

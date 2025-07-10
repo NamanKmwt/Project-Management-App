@@ -18,7 +18,7 @@ export default function(){
     return (
             <div className="w-screen overflow-x-hidden   h-screen box-border grid lg:grid-cols-[.6fr_1fr_1fr_1fr] md:grid-cols-[.5fr_1fr_1fr] grid-cols-[.5fr_1fr] ">
                 {/* make this responsive */}
-                <div className="col-span-1 sm:block hidden ">
+                <div className="col-span-1 ">
                 <UserSideBar/>
                 </div>
                 <div className="lg:col-span-3 md:col-span-2 sm:col-span-1 col-span-2    ">

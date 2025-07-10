@@ -11,12 +11,13 @@ export default function TaskBoard() {
   const projectId = localStorage.getItem('projectId')
   const [tasks , setTasks] = useState([{}]);
   const [loading , setLoading] = useState(true);
-  const [title , settitle] = useState();
-  const [description , setDescription] = useState() 
+  const [title , settitle] = useState('');
+  const [description , setDescription] = useState('') 
   const [users , setUsers] = useState([{}]);
   const addMembers = useMemberStore((state:any)=>state.addMembers)
   const mySet = new Array
   const navigate = useNavigate()
+  const [update , setUpdate] = useState('UPDATE')
   
   
   useEffect(()=>{
@@ -71,15 +72,84 @@ export default function TaskBoard() {
         })}
       </div> :<div className="p-4">
         <div className="bg-white p-2 rounded-4xl">
-      <div className="w-full px-3 my-2 font-bold text-3xl text-slate-800">{title}</div>
-      <div className="w-full px-3 my-1 font-bold text-2xl text-slate-500">{description}</div>
+        { update == 'UPDATE' ?   <>
+          <div className="w-full px-3 my-2 font-bold text-3xl text-slate-800">{title}</div>
+          <div className="w-full px-3 my-1 font-bold text-2xl text-slate-500">{description}</div>
+          </> : <>
+          <input onChange={(e)=>{
+            settitle(e.target.value)
+          }} type="text" className="w-full rounded-2xl border px-3 my-2 font-bold text-3xl text-slate-800" defaultValue={title}/>
+          <input onChange={(e)=>{
+            setDescription(e.target.value)
+          }} type="text" className="w-full rounded-2xl border px-3 my-1 font-bold text-2xl text-slate-500" defaultValue={description}/>
+          </>
+        }
       <div className='flex justify-between'>
       <div className=" px-3 font-bold text-xl text-slate-800">My Tasks</div>
+      <div className='flex '>
+        {update == 'UPDATE' ? 
+        <button onClick={()=>{
+          setUpdate('SAVE')
+        }} className="px-5 py-2 cursor-pointer bg-zinc-200 text-zinc-800 hover:bg-zinc-300 text-base font-semibold rounded-full">
+            Update Project
+        </button> : <button onClick={()=>{
+          axios.put('http://localhost:3000/api/v1/project/update' , {
+            title : title, 
+            description : description
+          }, {
+            headers : {
+              Authorization : localStorage.getItem('token')
+            } , 
+            params :{
+              projectID : projectId
+            }
+            
+          }).then((response)=>{
+          toast.success('Project Updated Successfully', {
+            style: {
+              border: "2px solid #3fa53b",
+              borderRadius: "8px",
+              background: "#4BB543",
+              color: "#fff",
+              padding: "16px",
+              boxShadow: "0 0 0 4px rgba(75,181,67,0.3)",
+              
+              transform: "scale(1)",
+              opacity: "1",
+              transition: "all 400ms ease",
+            },
+            iconTheme: {
+              primary: "#fff",
+              secondary: "#4BB543",
+            },
+          });
+          
+        }).catch((e)=>{
+          console.log(e)
+          toast.error(e.response.data.msg, {
+            style: {
+              borderRadius: '8px',
+              background: '#ff4d4f',
+                color: '#fff',
+                padding: '16px',
+              },
+              iconTheme: {
+                primary: '#fff',
+                secondary: '#ff4d4f',
+              },
+            });
+          })
+          setUpdate('UPDATE')
+
+        }}  className="px-5 py-2 cursor-pointer bg-violet-200 text-violet-800 hover:bg-violet-300 text-base font-semibold rounded-full">
+            Save Project
+        </button>
+}
       <div className="  px-3 font-bold text-xl text-slate-800"><img onClick={(e)=>{
         e.preventDefault();
         axios.delete('http://localhost:3000/api/v1/project/deleteProject' , {
           headers :{
-        Authorization : localStorage.getItem('token')
+            Authorization : localStorage.getItem('token')
           },
           data :{
             projectID : projectId
@@ -87,39 +157,40 @@ export default function TaskBoard() {
         }).then((response)=>{
           toast.success('Project Deleted Successfully', {
             style: {
-                border: "2px solid #3fa53b",
-                borderRadius: "8px",
-                background: "#4BB543",
-                color: "#fff",
-                padding: "16px",
-                boxShadow: "0 0 0 4px rgba(75,181,67,0.3)",
-                
-                transform: "scale(1)",
-                opacity: "1",
-                transition: "all 400ms ease",
+              border: "2px solid #3fa53b",
+              borderRadius: "8px",
+              background: "#4BB543",
+              color: "#fff",
+              padding: "16px",
+              boxShadow: "0 0 0 4px rgba(75,181,67,0.3)",
+              
+              transform: "scale(1)",
+              opacity: "1",
+              transition: "all 400ms ease",
             },
             iconTheme: {
-                primary: "#fff",
-                secondary: "#4BB543",
+              primary: "#fff",
+              secondary: "#4BB543",
             },
-            });
-            navigate('/admin/projects')
+          });
+          navigate('/admin/projects')
         }).catch((e)=>{
           toast.error(e.response.data.msg, {
             style: {
-                borderRadius: '8px',
-                background: '#ff4d4f',
+              borderRadius: '8px',
+              background: '#ff4d4f',
                 color: '#fff',
                 padding: '16px',
-            },
-            iconTheme: {
+              },
+              iconTheme: {
                 primary: '#fff',
                 secondary: '#ff4d4f',
-            },
+              },
             });
-        })
-      }} className='w-7 h-7 cursor-pointer' src="https://cdn-icons-png.flaticon.com/128/6861/6861362.png" alt="" /></div>
+          })
+        }} className='w-7 h-7 cursor-pointer hover:scale-110' src="https://cdn-icons-png.flaticon.com/128/6861/6861362.png" alt="" /></div>
       </div>
+    </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 my-4">
         {/* TODO Column */}
         <div className="flex flex-col bg-gradient-to-b from-blue-50 to-white border border-blue-200 rounded-xl shadow-sm">

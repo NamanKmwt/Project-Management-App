@@ -10,7 +10,7 @@ type inputSchema =  {
 
 export default function MemberSelectionDialog({selectedMembers , setSelectedMembers} :inputSchema) {
     const members = useAllMemberStore((state : any)=>state.AllmembersArray)
-    console.log(members)
+    
 
   const [isOpen, setIsOpen] = useState(false);
 

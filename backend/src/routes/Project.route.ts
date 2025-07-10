@@ -50,30 +50,30 @@ router.put('/update' , authAdminMiddleware , async function(req : any, res : any
         const body = req.body
         const projectID = req.query.projectID
         const {success } = inputSchema.safeParse(body)
-
+       
         if(!success){
             return res.status(403).json({
                 msg : "incorrect inputs"
             })
         }
-        if(!success){
-            return res.status(403).json({
-                msg : "incorrect inputs"
+        
+        try{
+
+            const project = await Project.updateOne(  {
+                _id : projectID
+            }, {
+                title : body.title , 
+                description : body.description
             })
+            if(!project){
+                return res.status(403).json({
+                    msg : "Error occured during project creation"
+                })
+            }
+        }catch(e){
+            return res.status(403).json({e});
         }
 
-        const project = await Project.updateOne(  {
-            _id : projectID
-        }, {
-            title : body.title , 
-            description : body.description
-        })
-
-        if(!project){
-            return res.status(403).json({
-                msg : "Error occured during project creation"
-            })
-        }
 
         res.status(200).json({
             msg : "project updated successfully"
